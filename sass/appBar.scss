@@ -1,0 +1,29 @@
+
+.appBar{
+   position: absolute;
+   display: flex;
+   background:rgba(132, 142, 148, 0.4);
+   width:100vw;
+   height: 8vh;
+}
+.logo{
+    margin-left: 5%;
+    margin-right: 0;
+    display: flex;
+    justify-content: flex-start;
+    width: 10%;
+    height: 100%;
+    background-image: url("./../img/logo.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain
+}
+.title{
+    margin-left:25%;
+    color: white;
+    display:flex;
+    justify-content: center;
+    align-self: center;
+    word-spacing: 10px;
+    font-family: 'Lato', sans-serif;
+}

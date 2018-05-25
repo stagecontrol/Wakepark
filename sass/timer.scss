@@ -1,0 +1,125 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+#clock {
+    font-family: 'Share Tech Mono', monospace;
+    color: #ffffff;
+    text-align: center;
+    color: #daf6ff;
+    text-shadow: 0 0 20px rgba(10, 175, 230, 1), 0 0 20px rgba(10, 175, 230, 0);
+    .time {
+        letter-spacing: 0.05em;
+        font-size: 80px;
+        padding: 5px 0;
+    }
+    .date {
+        letter-spacing: 0.1em;
+        font-size: 24px;
+    }
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.App {
+    display: flex;
+    align-self: center;
+    width: 300px;
+    height: 300px;
+}
+
+.start {
+    display: flex;
+}
+
+.name {
+    font-size: 40px;
+    background: none
+}
+
+.nameNext {
+    margin-top: 30%
+}
+
+.pressStart {
+    color: white;
+    font-size: 30px;
+}
+
+
+.table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: 'Share Tech Mono', monospace;
+    color: #ffffff;
+    th {
+        border: solid 1px red;
+    }
+}
+.start{
+    display: flex;
+    justify-content: center
+}
+.startBtn {
+    position: relative;
+    background: #333;
+    color: #ccc;
+    width: 200px;
+    height: 60px;
+    border: 0;
+    font-size: 18px;
+    border-radius: 4px;
+    font-family: 'Raleway', sans-serif;
+    transition: .6s;
+    overflow: hidden;
+    margin: 10%;
+    &:focus {
+        outline: 0;
+    }
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        background: rgba(255, 255, 255, 0.5);
+        width: 60px;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: .5;
+        filter: blur(30px);
+        transform: translateX(-100px) skewX(-15deg);
+    }
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        width: 30px;
+        height: 100%;
+        left: 30px;
+        top: 0;
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(-100px) skewX(-15deg);
+    }
+    &:hover {
+        background: #338033;
+        cursor: pointer;
+        &:before {
+            transform: translateX(300px) skewX(-15deg);
+            opacity: 0.6;
+            transition: .7s;
+        }
+        &:after {
+            transform: translateX(300px) skewX(-15deg);
+            opacity: 1;
+            transition: .7s;
+        }
+    }
+}

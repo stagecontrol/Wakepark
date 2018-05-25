@@ -1,0 +1,33 @@
+{
+  "people": [
+    {
+      "name": "Mateusz",
+      "id": 1
+    },
+    {
+      "name": "Tomek",
+      "id": 2
+    },
+    {
+      "name": "Jarek",
+      "id": 3
+    }
+  ],
+  "time": [
+    {
+      "name": "Mateusz",
+      "time": "3",
+      "id": 1
+    },
+    {
+      "name": "Tomek",
+      "time": "4",
+      "id": 2
+    },
+    {
+      "name": "Jarek",
+      "time": "2",
+      "id": 3
+    }
+  ]
+}
