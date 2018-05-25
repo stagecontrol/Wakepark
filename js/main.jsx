@@ -1,4 +1,3 @@
-import './../sass/main.scss'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -18,6 +17,7 @@ import Portal from '@material-ui/core/Portal';
 import EntryList from './entry_list/entryList.jsx'
 import Timer from './Timer.jsx'
 import Speak from './speak.jsx'
+import AppBar from './appBar.jsx';
 
 
 
@@ -118,7 +118,11 @@ export default class Main extends React.Component {
         if (redirect) {
             return <Redirect to='/entry/people' />;
         }
-        return (<div class="lower">
+        return (
+        
+        
+   
+        <div class="lower">
             <video autoPlay loop id="video-background" muted plays-inline>
                 <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
             </video>
@@ -140,11 +144,12 @@ export default class Main extends React.Component {
 
             </div>
             <div>
+        </div>
                 
                 
                 
             </div>
-        </div>)
+        )
     }
 }
 

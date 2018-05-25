@@ -29,7 +29,12 @@ export default class Timer extends React.Component {
         show: false,
         time: 0,
         timePerPerson: [],
-        newTimePerPerson: 0
+        newTimePerPerson: 0,
+        pauseTime: 0,
+        paused: undefined,
+        resumed: undefined,
+        firstUse: true,
+        index: 0,
     }
     date = () => {
 
@@ -63,7 +68,7 @@ export default class Timer extends React.Component {
                     let time = data[i].time
                     let round = Number(data[i].time)
                     let timeSetup = []
-                    let timePerPerson = 60 / data.length * 60000
+                    let timePerPerson = 60 / data.length * 6000
                     if (data.length == 1) {
                         time = 60
                     } else {
@@ -110,66 +115,164 @@ export default class Timer extends React.Component {
     start = (e) => {
         let text = e.target.innerText == "START" ? "PAUSE" : "START"
         e.target.innerText = text
-        let className = e.target.className == "running" ? "paused startBtn" : "running startBtn"
-        e.target.className = className
-        console.log(className)
-        this.setState({
-            show: true
-        })
-        this.speakStart()
+        if (e.target.classList.contains('firstUse')) {
+            e.target.classList.remove('firstUse')
+            e.target.classList.add('running')
+            this.speakStart()
+           
+        } else if (e.target.classList.contains('running') && this.state.firstUse == false) {
+            e.target.classList.remove('running')
+            e.target.classList.add('paused')
+        } else if (e.target.classList.contains('paused')) {
+            e.target.classList.remove('paused')
+            e.target.classList.add('running')
+        }
+
+
+
+        if (e.target.classList.contains("paused") ) {
+            this.setState({
+                paused: true,
+                resumed: false,
+                firstUse: false,
+                show: true
+
+
+            }, () => {
+                console.log(this.state.resumed, "resumed 1")
+                console.log(this.state.paused, "paused 1")
+            })
+
+
+        } else if (e.target.classList.contains("running")) {
+            this.setState({
+                paused: false,
+                resumed: true,
+                firstUse: false,
+                show: true
+
+            }, () => {
+                console.log(this.state.resumed, "resumed 2")
+                console.log(this.state.paused, "paused 2");
+                
+            })
+
+        }
         this.timer()
 
-
     }
+
 
     timer = () => {
 
-        let index = 0
-        this.setState({
-            currentTime: this.state.timeSetup[index].time * 60000,
-        })
-        let roundTime = this.state.timeSetup[index].time * 60000
+        //pierwsze uruchomienie
+        if (this.state.firstUse == true && this.state.paused == undefined && this.state.running == undefined) {
 
-
-        this.id = setInterval(() => {
-            if (roundTime > 0) {
-                let period = this.state.timePerPerson[index]
-                let change = period - 1000
-                let newList = this.state.timePerPerson.concat()
-                console.log(newList[index], 'nowa lsita', change, 'change')
-                newList[index] = (change)
-                this.setState({
-                    currentTime: this.state.currentTime - 1000,
-                    timePerPerson: newList
-                })
-                roundTime = roundTime - 1000
-                console.log(this.state.timePerPerson, 'TimeSetup')
-            } else {
-                index = index + 1;
-                this.setState({
-                    round: this.state.round + 1
-                })
-                if (index > this.state.rounds) {
-                    clearInterval(this.id);
-                } else {
-                    roundTime = this.state.timeSetup[index].time * 60000
+            this.setState({
+                currentTime: this.state.timeSetup[this.state.index].time * 6000,
+            })
+            let roundTime = this.state.timeSetup[this.state.index].time * 6000
+            this.id = setInterval(() => {
+            let index = this.state.index
+                
+                console.log('pierwszy interwał')
+                if (roundTime > 0) {
+                    let period = this.state.timePerPerson[index]
+                    let change = period - 1000
+                    let newList = this.state.timePerPerson.concat()
+                    newList[index] = (change)
                     this.setState({
-                        currentTime: this.state.timeSetup[index].time * 60000
+                        currentTime: this.state.currentTime - 1000,
+                        timePerPerson: newList
                     })
+                    roundTime = roundTime - 1000
+                } else {
+                    this.setState({
+                        round: this.state.round + 1,
+                        index: this.state.index + 1
+                    })
+                    if (index > this.state.rounds) {
+                        clearInterval(this.id);
+
+                    } else {
+                        roundTime = this.state.timeSetup[index].time * 6000
+                        this.setState({
+                            currentTime: this.state.timeSetup[index].time * 6000
+                        })
+                    }
+
                 }
+                if (this.state.currentTime === 280000) {
+                    this.speakPrepare(this.state.timeSetup[index + 1].name)
+                }
+                if (this.state.currentTime === 10000) {
+                    this.speakChange(this.state.timeSetup[index + 1].name)
+                }
+                if (this.state.paused) {
+                    this.setState({
+                        pauseTime: this.state.currentTime
+                    })
+                    clearInterval(this.id)
 
-            }
-            if (this.state.currentTime === 280000) {
-                this.speakPrepare(this.state.timeSetup[index + 1].name)
-            }
-            if (this.state.currentTime === 10000) {
-                this.speakChange(this.state.timeSetup[index + 1].name)
-            }
-        }, 1000)
+                }
+            }, 1000)
+        }
 
+        //uruchomienie jeżeli state jest 'resumed'
+
+        if (this.state.paused == true) {
+            let roundTime = this.state.pauseTime
+
+            this.id2 = setInterval(() => {
+                let index = this.state.index
+                if (roundTime > 0) {
+                    let period = this.state.timePerPerson[index]
+                    let change = period - 1000
+                    let newList = this.state.timePerPerson.concat()
+                    newList[index] = change
+                    this.setState({
+                        currentTime: this.state.currentTime - 1000,
+                        timePerPerson: newList
+                    })
+                    roundTime = roundTime - 1000
+                    
+                } else {
+                    
+                    this.setState({
+                        round: this.state.round + 1,
+                        index: this.state.index + 1
+                    })
+                    if (index > this.state.rounds) {
+                        clearInterval(this.id);
+                    } else {
+                        roundTime = this.state.timeSetup[index].time * 6000
+                        this.setState({
+                            currentTime: this.state.timeSetup[index].time * 6000
+                        })
+                    }                 
+            
+
+                }
+                if (this.state.currentTime === 28000) {
+                    this.speakPrepare(this.state.timeSetup[index + 1].name)
+                }
+                if (this.state.currentTime === 1000) {
+                    this.speakChange(this.state.timeSetup[index + 1].name)
+                }
+            }, 1000)
+        }
+        //czyszczenie jeżeli state jest 'paused'
+        if (this.state.paused == false) {
+            console.log('2 pauza działa')
+            this.setState({
+                pauseTime: this.state.currentTime
+            })
+            clearInterval(this.id2)
+        }
 
 
     }
+
     checkTime = (i) => {
         if (i < 10) { i = "0" + i };
         return i;
@@ -231,14 +334,17 @@ export default class Timer extends React.Component {
         if (this.state.timeSetup.length == 0) {
             return null
         }
-        console.log(this.state.names)
+        console.log(this.state.index, 'index')
+        
+        // console.log(this.state.firstUse, 'firstuse')
+        // console.log(this.state.resumed, 'resumed')
+        // console.log(this.state.paused, 'paused')
         let widthStyle = {
-            width: 1000/this.state.names.length
-            
+            width: 1000 / this.state.names.length
+
         }
-        console.log(widthStyle, 'width')
         const list = this.state.names.map(p =>
-            
+
             <th className="currentUser" style={widthStyle}>{p}</th>
 
         )
@@ -251,7 +357,6 @@ export default class Timer extends React.Component {
         )
 
         const showDiv = () => {
-            console.log()
             if (this.state.show == true) {
                 const time = this.numberToTime(this.state.currentTime)
                 const currentTime = <div>{time}</div>
@@ -291,7 +396,7 @@ export default class Timer extends React.Component {
 
                 </div>
 
-                <div className="start"><button onClick={this.start} className="startBtn">START</button></div>
+                <div className="start"><button onClick={this.start} className="startBtn firstUse">START</button></div>
 
                 <div className="table">
                     <div>

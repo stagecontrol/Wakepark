@@ -25,11 +25,10 @@ document.addEventListener('DOMContentLoaded', function () {
         render() {
             return (
                 <HashRouter>
-                    <div>
-
-
+                    <div className="work_please">
+                        <AppBar />
                         <div className="full">
-                            <Route path="/main" component={Main} className='full' />
+                            <Route exact path="/" component={Main} className='full' />
                             <Route path="/entry" component={EntryList} className='full' />
                             <Route path="/App" component={Timer} />
                         </div>

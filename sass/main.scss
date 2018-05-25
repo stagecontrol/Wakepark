@@ -10,6 +10,12 @@ $black: #1D242B;
 $green: #38B87C;
 $blue: #2492FF;
 
+.work_please{
+    display:flex;
+    width:100%;
+    height:100vh;
+    flex-direction: column
+}
 
 .centerMe {
     position: absolute;
@@ -31,13 +37,6 @@ $blue: #2492FF;
     z-index: -100;
 }
 
-#app {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-}
-
 .central_box {
     min-width: 120px;
     min-height: 170px;
@@ -53,9 +52,16 @@ $blue: #2492FF;
     background: rgba(188, 195, 196, 0.3);
     box-shadow: #4A666C 0px 2px;
 }
+.full{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
 .lower{
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    height: 200px
 }
 
 .buttonRemove {

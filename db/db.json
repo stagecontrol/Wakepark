@@ -1,32 +1,32 @@
 {
   "people": [
     {
-      "name": "Mateusz",
+      "name": "jeden",
       "id": 1
     },
     {
-      "name": "Tomek",
+      "name": "dwa",
       "id": 2
     },
     {
-      "name": "Jarek",
+      "name": "trzy",
       "id": 3
     }
   ],
   "time": [
     {
-      "name": "Mateusz",
+      "name": "jeden",
       "time": "3",
       "id": 1
     },
     {
-      "name": "Tomek",
-      "time": "4",
+      "name": "dwa",
+      "time": "2",
       "id": 2
     },
     {
-      "name": "Jarek",
-      "time": "2",
+      "name": "trzy",
+      "time": "1",
       "id": 3
     }
   ]
