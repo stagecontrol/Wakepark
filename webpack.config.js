@@ -5,7 +5,8 @@ module.exports = {
   entry: ['whatwg-fetch', './js/app.jsx', './css/main.css'],
   output: {
     filename: "out.js",
-    path: path.resolve(__dirname, "build")
+    path: path.resolve(__dirname, "build"),
+    exclude:path.resolve(__dirname, "node_modules")
   },
   devServer: {
     inline: true,

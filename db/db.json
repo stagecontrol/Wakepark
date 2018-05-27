@@ -1,32 +1,32 @@
 {
   "people": [
     {
-      "name": "jeden",
+      "name": "Ania",
       "id": 1
     },
     {
-      "name": "dwa",
+      "name": "Hania",
       "id": 2
     },
     {
-      "name": "trzy",
+      "name": "Ola",
       "id": 3
     }
   ],
   "time": [
     {
-      "name": "jeden",
-      "time": "3",
+      "name": "Ania",
+      "time": "2",
       "id": 1
     },
     {
-      "name": "dwa",
+      "name": "Hania",
       "time": "2",
       "id": 2
     },
     {
-      "name": "trzy",
-      "time": "1",
+      "name": "Ola",
+      "time": "2",
       "id": 3
     }
   ]

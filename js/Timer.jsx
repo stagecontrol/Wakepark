@@ -23,18 +23,19 @@ export default class Timer extends React.Component {
     state = {
         name: [],
         timeSetup: [],
-        secondTimeSetup: [],
         round: 0,
-        currentTime: 0,
+        currentTime: [],
         show: false,
         time: 0,
         timePerPerson: [],
-        newTimePerPerson: 0,
+        newTimePerPerson: [],
         pauseTime: 0,
         paused: undefined,
         resumed: undefined,
         firstUse: true,
         index: 0,
+        personId: 0,
+        rounds: 0
     }
     date = () => {
 
@@ -66,22 +67,22 @@ export default class Timer extends React.Component {
                 for (let i = 0; i < data.length; i++) {
                     let name = data[i].name;
                     let time = data[i].time
+                    let id = data[i].id
                     let round = Number(data[i].time)
                     let timeSetup = []
-                    let timePerPerson = 60 / data.length * 6000
+                    let timePerPerson = 60 / data.length * 1000
                     if (data.length == 1) {
                         time = 60
                     } else {
                         time = 60 / data.length
                         timeSetup = Math.round(time / data[i].time)
                     }
-                    let obj = { name: name, time: timeSetup, period: time, rounds: round, timeSpent: 0 }
-
+                    let obj = { name: name, time: timeSetup, period: time, rounds: round, timeSpent: 0, id: id }
+                    let timePerPersonObj = { time: timePerPerson, id: id }
                     newNameList.push(name)
                     newTimeSetup.push(obj)
-                    newtimePerPerson.push(timePerPerson)
+                    newtimePerPerson.push(timePerPersonObj)
                     newRounds = newRounds + round
-                    console.log(newtimePerPerson, 'new')
                 }
                 let stop = false
                 const order = []
@@ -106,7 +107,6 @@ export default class Timer extends React.Component {
                     rounds: newRounds,
                     timePerPerson: newtimePerPerson
                 })
-                console.log(this.state.timePerPerson, 'timePerPerson')
             })
             .catch(err => console.log(err));
     }
@@ -118,11 +118,17 @@ export default class Timer extends React.Component {
         if (e.target.classList.contains('firstUse')) {
             e.target.classList.remove('firstUse')
             e.target.classList.add('running')
-            this.speakStart()
-           
+            this.setState({
+                show: true,
+                end: false
+
+            })
+
+
         } else if (e.target.classList.contains('running') && this.state.firstUse == false) {
             e.target.classList.remove('running')
             e.target.classList.add('paused')
+
         } else if (e.target.classList.contains('paused')) {
             e.target.classList.remove('paused')
             e.target.classList.add('running')
@@ -130,7 +136,7 @@ export default class Timer extends React.Component {
 
 
 
-        if (e.target.classList.contains("paused") ) {
+        if (e.target.classList.contains("paused")) {
             this.setState({
                 paused: true,
                 resumed: false,
@@ -138,9 +144,6 @@ export default class Timer extends React.Component {
                 show: true
 
 
-            }, () => {
-                console.log(this.state.resumed, "resumed 1")
-                console.log(this.state.paused, "paused 1")
             })
 
 
@@ -149,40 +152,54 @@ export default class Timer extends React.Component {
                 paused: false,
                 resumed: true,
                 firstUse: false,
-                show: true
 
-            }, () => {
-                console.log(this.state.resumed, "resumed 2")
-                console.log(this.state.paused, "paused 2");
-                
             })
 
         }
         this.timer()
+        this.timerResumed()
 
     }
 
 
     timer = () => {
+        let index = this.state.index
 
         //pierwsze uruchomienie
         if (this.state.firstUse == true && this.state.paused == undefined && this.state.running == undefined) {
-
+            const currentTimeObj = { time: this.state.timeSetup[this.state.index].time * 1000, id: this.state.timeSetup[this.state.index].id }
             this.setState({
-                currentTime: this.state.timeSetup[this.state.index].time * 6000,
+                currentTime: currentTimeObj
             })
-            let roundTime = this.state.timeSetup[this.state.index].time * 6000
+            let roundTime = this.state.timeSetup[this.state.index].time * 1000
+            let personId = 0
+
+
+
+
+
             this.id = setInterval(() => {
-            let index = this.state.index
-                
-                console.log('pierwszy interwał')
+                let index = this.state.index
+
                 if (roundTime > 0) {
-                    let period = this.state.timePerPerson[index]
+                    for (let i = 0; i < this.state.timePerPerson.length; i++) {
+                        let element = this.state.timePerPerson[i].id;
+                        if (element == this.state.timeSetup[index].id) {
+                            personId = element
+                            this.setState({
+                                personId: element
+                            })
+                        }
+                    }
+
+                    // console.log(this.state.round, this.state.index, this.state.rounds, 'roundTime')
+
+                    let period = this.state.timePerPerson[personId - 1].time
                     let change = period - 1000
                     let newList = this.state.timePerPerson.concat()
-                    newList[index] = (change)
+                    newList[personId - 1] = { time: change, id: personId }
                     this.setState({
-                        currentTime: this.state.currentTime - 1000,
+                        currentTime: { time: this.state.currentTime.time - 1000, id: this.state.timeSetup[index].id },
                         timePerPerson: newList
                     })
                     roundTime = roundTime - 1000
@@ -191,53 +208,72 @@ export default class Timer extends React.Component {
                         round: this.state.round + 1,
                         index: this.state.index + 1
                     })
-                    if (index > this.state.rounds) {
+                    if (index == this.state.rounds) {
                         clearInterval(this.id);
+                        this.setState({
+                            end: true
+                        })
 
                     } else {
-                        roundTime = this.state.timeSetup[index].time * 6000
+                        roundTime = this.state.timeSetup[index].time * 1000
                         this.setState({
-                            currentTime: this.state.timeSetup[index].time * 6000
+                            currentTime: { time: this.state.timeSetup[this.state.index].time * 1000, id: this.state.timeSetup[this.state.index].id }
                         })
                     }
 
                 }
-                if (this.state.currentTime === 280000) {
+                if (this.state.currentTime.time === 280000) {
                     this.speakPrepare(this.state.timeSetup[index + 1].name)
                 }
-                if (this.state.currentTime === 10000) {
+                if (this.state.currentTime.time === 10000) {
                     this.speakChange(this.state.timeSetup[index + 1].name)
                 }
                 if (this.state.paused) {
                     this.setState({
-                        pauseTime: this.state.currentTime
+                        pauseTime: this.state.currentTime.time
                     })
                     clearInterval(this.id)
-
                 }
             }, 1000)
         }
-
-        //uruchomienie jeżeli state jest 'resumed'
+    }
+    timerResumed = () => {
 
         if (this.state.paused == true) {
             let roundTime = this.state.pauseTime
+            let personId = 0
+            let index = this.state.index
+
+
 
             this.id2 = setInterval(() => {
+                console.log('drugi interwał')
                 let index = this.state.index
+                for (let i = 0; i < this.state.timePerPerson.length; i++) {
+                    let element = this.state.timePerPerson[i].id;
+                    if (element == this.state.timeSetup[index].id) {
+                        personId = element
+                        this.setState({
+                            personId: element
+                        })
+                    }
+                }
                 if (roundTime > 0) {
-                    let period = this.state.timePerPerson[index]
+
+
+
+
+                    let period = this.state.timePerPerson[personId - 1].time
                     let change = period - 1000
                     let newList = this.state.timePerPerson.concat()
-                    newList[index] = change
+                    newList[personId - 1] = { time: change, id: personId }
                     this.setState({
-                        currentTime: this.state.currentTime - 1000,
+                        currentTime: { time: this.state.currentTime.time - 1000, id: this.state.timeSetup[index].id },
                         timePerPerson: newList
                     })
                     roundTime = roundTime - 1000
-                    
                 } else {
-                    
+
                     this.setState({
                         round: this.state.round + 1,
                         index: this.state.index + 1
@@ -245,18 +281,18 @@ export default class Timer extends React.Component {
                     if (index > this.state.rounds) {
                         clearInterval(this.id);
                     } else {
-                        roundTime = this.state.timeSetup[index].time * 6000
+                        roundTime = this.state.timeSetup[index].time * 1000
                         this.setState({
-                            currentTime: this.state.timeSetup[index].time * 6000
+                            currentTime: { time: this.state.timeSetup[this.state.index].time * 1000, id: this.state.timeSetup[this.state.index].id }
                         })
-                    }                 
-            
+                    }
+
 
                 }
-                if (this.state.currentTime === 28000) {
+                if (this.state.currentTime.time === 28000) {
                     this.speakPrepare(this.state.timeSetup[index + 1].name)
                 }
-                if (this.state.currentTime === 1000) {
+                if (this.state.currentTime.time === 1000) {
                     this.speakChange(this.state.timeSetup[index + 1].name)
                 }
             }, 1000)
@@ -265,13 +301,16 @@ export default class Timer extends React.Component {
         if (this.state.paused == false) {
             console.log('2 pauza działa')
             this.setState({
-                pauseTime: this.state.currentTime
+                pauseTime: this.state.currentTime.time
             })
             clearInterval(this.id2)
         }
 
 
     }
+
+
+
 
     checkTime = (i) => {
         if (i < 10) { i = "0" + i };
@@ -334,79 +373,98 @@ export default class Timer extends React.Component {
         if (this.state.timeSetup.length == 0) {
             return null
         }
-        console.log(this.state.index, 'index')
-        
-        // console.log(this.state.firstUse, 'firstuse')
-        // console.log(this.state.resumed, 'resumed')
-        // console.log(this.state.paused, 'paused')
-        let widthStyle = {
-            width: 1000 / this.state.names.length
 
+        let widthStyle = {
+            width: 1000 / this.state.names.length,
         }
+
+
         const list = this.state.names.map(p =>
 
-            <th className="currentUser" style={widthStyle}>{p}</th>
+            <th className="currentUser" style={{ width: 1000 / this.state.names.length }} on>{p}</th>
 
         )
         const timeLeft = this.state.timePerPerson.map(p =>
 
-            <th className="timeLeft" style={widthStyle}>{this.numberToTime(p)}</th>
+            <th className="timeLeft" style={widthStyle}>{this.numberToTime(p.time)}</th>
 
 
 
         )
 
         const showDiv = () => {
-            if (this.state.show == true) {
-                const time = this.numberToTime(this.state.currentTime)
-                const currentTime = <div>{time}</div>
-                const name = <div>{this.state.timeSetup[this.state.round].name}</div>
-                const nameNext = <div>{this.state.timeSetup[this.state.round + 1].name}</div>
 
-                return (
-                    <div id="clock" >
-                        <div><p className="time">{currentTime}</p></div>
-                        <div className="name">{name}</div>
-                        <div className="nameNext">NEXT {nameNext}</div>
-                    </div>
+            const time = this.numberToTime(this.state.currentTime.time)
+            const currentTime = <div>{time}</div>
+            let name = ''
+            if(this.state.timeSetup.length>this.state.round){
+                 name = <div>{this.state.timeSetup[this.state.round].name}</div>
+            }else{
+              name = <div className="name">Koniec Kolejki</div>
+            }
+            
+
+            let result = (props) => {
+                return (<div id="clock" >
+                    <div><p className="time">{currentTime}</p></div>
+                    <div className="name">{name}</div>
+                    <div className="nameNext">NEXT {props}</div>
+                </div>
                 )
-            } else {
+            }
+
+
+            if (this.state.show == true && this.state.round + 1 < this.state.rounds) {
+                let nameNext = <div>{this.state.timeSetup[this.state.round + 1].name}</div>
+                return result(nameNext)
+
+
+            } else if (this.state.show == true && this.state.round + 1 == this.state.rounds) {
+
+                return result('end')
+
+            }else if(this.state.show == true && this.state.round + 1> this.state.rounds){
+                return (<div>Koniec</div>)
+            }
+            
+            else {
                 return <div className="pressStart">Press start...</div>
             }
         }
-        const date = () => { return <div>{this.state.time}</div> }
+    
+    const date = () => { return <div>{this.state.time}</div> }
 
-        return (
-            <div className="">
-                <div className="central_box App">
+    return(
+            <div className = "" >
+            <div className="central_box App">
 
-                    <video autoPlay loop id="video-background" muted plays-inline>
-                        <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
-                    </video>
+                <video autoPlay loop id="video-background" muted plays-inline>
+                    <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
+                </video>
 
-                    <div>{showDiv()}</div>
-
-
+                <div>{showDiv()}</div>
 
 
-                    {/* {date()} */}
+
+
+                {/* {date()} */}
+
+            </div>
+            <div>
+
+            </div>
+
+            <div className="start"><button onClick={this.start} className="startBtn firstUse">START</button></div>
+
+            <div className="table">
+                <div>
+                    <table>{list}</table>
 
                 </div>
                 <div>
-
+                    <table>{timeLeft}</table>
                 </div>
-
-                <div className="start"><button onClick={this.start} className="startBtn firstUse">START</button></div>
-
-                <div className="table">
-                    <div>
-                        <table>{list}</table>
-
-                    </div>
-                    <div>
-                        <table>{timeLeft}</table>
-                    </div>
-                </div>
+            </div>
             </div>
         )
     }
