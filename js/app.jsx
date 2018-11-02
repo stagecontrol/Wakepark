@@ -16,7 +16,7 @@ import Portal from '@material-ui/core/Portal';
 //components 
 import EntryList from './entry_list/entryList.jsx'
 import Timer from './Timer.jsx'
-import Speak from './speak.jsx'
+import Start from './start.jsx'
 import Main from './main.jsx'
 import AppBar from './appBar.jsx'
 document.addEventListener('DOMContentLoaded', function () {
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div className="full">
                             <Route exact path="/" component={Main} className='full' />
                             <Route path="/entry" component={EntryList} className='full' />
+                            <Route path="/start" component={Start} className='full' />
                             <Route path="/App" component={Timer} />
                         </div>
                     </div>

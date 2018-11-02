@@ -1,13 +1,17 @@
 .box{
     display: flex;
-    align-self: center
+    align-self: center;
+    justify-self: center
 }
 .input{
     color:white!important;
+    font-size: 0.8rem
 }
 
 .name{
     background: rgba(255, 255, 255, 0.4);
+    width: 50%  !important;
+    font-size: 2rem;
     display: flex;
     justify-self: flex-start;
     margin:0;
@@ -38,8 +42,8 @@ input:focus {
 
 input.question,
 textarea.question {
-  font-size: 48px;
-  font-weight: 300;
+  font-size: 1.2rem;
+  font-weight: 100;
   border-radius: 4px;
   margin: 0;
   border: none;
@@ -71,12 +75,12 @@ textarea.question:focus + label {
 
 input.question:focus,
 input.question:valid {
-  padding-top: 35px;
+  padding-top: 25px;
 }
 
 textarea.question:valid,
 textarea.question:focus {
-  margin-top: 35px;
+  margin-top: 25px;
 }
 
 input.question:focus + label > span,
@@ -105,7 +109,7 @@ textarea.question:invalid {
 
 input.question + label > span,
 textarea.question + label > span {
-  font-weight: 300;
+  font-weight: 100;
   margin: 0;
   position: absolute;
   color: #8F8F8F;

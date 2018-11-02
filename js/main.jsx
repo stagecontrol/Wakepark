@@ -25,7 +25,8 @@ export default class Main extends React.Component {
     state = {
         numberOfPeopleRecords: 0,
         numberOfTimeRecords: 0,
-        redirect: false
+        redirectPeople: false,
+        redirectList: false,
     }
     urlPeople = 'http://localhost:3000/people/'
     urlTime = 'http://localhost:3000/time/'
@@ -74,11 +75,15 @@ export default class Main extends React.Component {
 
     addNew = () => {
         this.setState({
-            redirect: true
+            redirectPeople: true
         })
     }
 
-
+pick = ()=>{
+    this.setState({
+        redirectList: true
+    })
+}
 
     clearDBQuestion = (e) => {
 
@@ -114,28 +119,34 @@ export default class Main extends React.Component {
     }
 
     render() {
-        const { redirect } = this.state
-        if (redirect) {
+        const { redirectPeople } = this.state
+        const { redirectList } = this.state
+
+        if (redirectPeople) {
             return <Redirect to='/entry/people' />;
+        }
+        if (redirectList) {
+            return <Redirect to='/start' />;
         }
         return (
         
         
    
-        <div class="lower">
+        <div className="lower">
             <video autoPlay loop id="video-background" muted plays-inline>
                 <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
             </video>
             <div>
-            <div><button type="submit" onClick={this.addNew} class="startBtn1 next1">Add New </button></div>
+            <div><button type="submit" onClick={this.addNew} className="startBtn1 next1">Add New </button></div>
+            <div><button type="submit" onClick={this.pick} className="startBtn1 next1">Pick from the list </button></div>
           
-                <button class="buttonRemove " onClick={this.clearDBQuestion} mouseover={this.reset}>
-                    <div class="icon">
-                        <i class="fa fa-trash-o"></i>
-                        <i class="fa fa-question"></i>
-                        <i class="fa fa-check"></i>
+                <button className="buttonRemove " onClick={this.clearDBQuestion} mouseover={this.reset}>
+                    <div className="icon">
+                        <i className="fa fa-trash-o"></i>
+                        <i className="fa fa-question"></i>
+                        <i className="fa fa-check"></i>
                     </div>
-                    <div class="text">
+                    <div className="text">
                         <span>Delete</span>
                     </div>
                         

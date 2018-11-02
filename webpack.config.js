@@ -6,7 +6,6 @@ module.exports = {
   output: {
     filename: "out.js",
     path: path.resolve(__dirname, "build"),
-    exclude:path.resolve(__dirname, "node_modules")
   },
   devServer: {
     inline: true,
@@ -74,6 +73,11 @@ module.exports = {
             outputPath: 'fonts'
           }
         }
+      },
+      {
+        test: /\.js$/,
+        use: ["source-map-loader"],
+        enforce: "pre"
       }
     ]
   },
