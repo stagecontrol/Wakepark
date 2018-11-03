@@ -88,7 +88,7 @@ export default class TimeSetup extends React.Component {
         }
         const obj = this.state.data[0]
         const id = {id:this.state.data[0].id}
-//leaving current id in recent db
+//leaving current id in 'recent' db
         fetch(url2)
         .then(resp => {
             console.log(resp)

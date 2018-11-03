@@ -189,11 +189,11 @@ export default class Timer extends React.Component {
 
     timer = () => {
                     // let index = this.state.index
-                    
                     //pierwsze uruchomienie
                     if (this.state.firstUse == true && this.state.paused == undefined && this.state.running == undefined) {
                         const currentTimeObj = { time: this.state.timeSetup[this.state.index].time[this.state.round] * 1000, id: this.state.timeSetup[this.state.index].id }
                         // console.log(currentTimeObj)
+
                         this.setState({
                             currentTime: currentTimeObj
                         })
@@ -205,7 +205,8 @@ export default class Timer extends React.Component {
                         this.id = setInterval(() => {
                             let index = this.state.index
                             counter +=1
-                            console.log(counter, roundTime)
+                            // console.log(this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound], this.state.timeSetup[this.state.index].currentRound)
+                            console.log(this.state.timeSetup[this.state.index].currentRound)
 
                             if (roundTime > 0) {
                                 
@@ -223,21 +224,29 @@ export default class Timer extends React.Component {
                                 let change = period - 1000
                                 let newList = this.state.timePerPerson.concat()
                                 newList[personId - 1] = { time: change, id: personId }
-                                console.log(this.state.currentTime)
                                 this.setState({
                                     currentTime: { time: this.state.currentTime.time - 1000, id: this.state.timeSetup[index].id },
                                     timePerPerson: newList
                                 })
                                 roundTime -= 1000
-                                console.log(roundTime)
 
                             }
                             else{
-                                console.log('next')
-                                this.state.timeSetup[this.state.index].currentRound +=1
+                                let name = this.state.timeSetup[this.state.index].name
+                                let updatedtimeSetup =this.state.timeSetup.concat()
+                                for (let i = this.state.index+1; i < updatedtimeSetup.length; i++) {
+                                    
+                                    const element =  this.state.timeSetup[i].name;
+                                    if(name === element){
+                                        updatedtimeSetup[i].currentRound +=1
+                                    }
+                                }
+                                console.log(updatedtimeSetup)
                                 this.setState({
+                                    
                                     round: this.state.round + 1,
-                                    index: this.state.index + 1
+                                    index: this.state.index + 1,
+                                    timeSetup: updatedtimeSetup
                                 })
                                 if (index == this.state.rounds) {
                                     clearInterval(this.id);
@@ -246,7 +255,7 @@ export default class Timer extends React.Component {
                                     })
 
                                 } else {
-                                    roundTime = this.state.timeSetup[index].time[this.state.round] * 1000
+                                    roundTime = this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound] * 1000
                                     this.setState({
                                         currentTime: { time: roundTime, id: this.state.timeSetup[this.state.index].id }
                                     })
@@ -255,18 +264,18 @@ export default class Timer extends React.Component {
 
 
                     
-                            //     if (index == this.state.rounds) {
-                            //         clearInterval(this.id);
-                            //         this.setState({
-                            //             end: true
-                            //         })
+                                if (index == this.state.rounds) {
+                                    clearInterval(this.id);
+                                    this.setState({
+                                        end: true
+                                    })
 
-                            //     } else {
-                            //         roundTime = this.state.timeSetup[index].time[this.state.round] * 1000
-                            //         this.setState({
-                            //             currentTime: { time: roundTime, id: this.state.timeSetup[this.state.index].id }
-                            //         })
-                            //     }
+                                } else {
+                                    // roundTime = this.state.timeSetup[index].time[this.state.round] * 1000
+                                    this.setState({
+                                        currentTime: { time: roundTime, id: this.state.timeSetup[this.state.index].id }
+                                    })
+                                }
 
                             
                             if (this.state.currentTime.time === 280000) {
