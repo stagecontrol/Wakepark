@@ -99,7 +99,6 @@ export default class TimeSetup extends React.Component {
             }
         })
         .then(data=>{
-            console.log(data)
             for (let i = 0; i < data.length; i++) {
                 const element = data[i].id;
                 if(element !== this.state.data[0].id){
@@ -214,7 +213,7 @@ export default class TimeSetup extends React.Component {
 
 
             <div className="full">
-                <video autoPlay loop id="video-background" muted plays-inline>
+                <video autoPlay loop id="video-background" muted playsInline>
                     <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
                 </video>
                 <div className="central_box box">

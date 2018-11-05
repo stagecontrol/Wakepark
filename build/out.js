@@ -607,7 +607,7 @@ var Timer = function (_React$Component) {
                     { className: 'central_box App' },
                     _react2.default.createElement(
                         'video',
-                        { autoPlay: true, loop: true, id: 'video-background', muted: true, 'plays-inline': true },
+                        { autoPlay: true, loop: true, id: 'video-background', muted: true, 'playsInline': true },
                         _react2.default.createElement('source', { src: './../../img/Wakeport Kani\xF3w by Mavic Pro.mp4', type: 'video/mp4' })
                     ),
                     _react2.default.createElement(
@@ -1048,7 +1048,7 @@ var People = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'video',
-                    { autoPlay: true, loop: true, id: 'video-background', muted: true, 'plays-inline': true },
+                    { autoPlay: true, loop: true, id: 'video-background', muted: true, 'playsInline': true },
                     _react2.default.createElement('source', { src: './../../img/Wakeport Kani\xF3w by Mavic Pro.mp4', type: 'video/mp4' })
                 ),
                 _react2.default.createElement(
@@ -1284,7 +1284,7 @@ var TimeSetup = function (_React$Component) {
                     { className: 'central_box box' },
                     _react2.default.createElement(
                         'video',
-                        { autoPlay: true, loop: true, id: 'video-background', muted: true, 'plays-inline': true },
+                        { autoPlay: true, loop: true, id: 'video-background', muted: true, 'playsInline': true },
                         _react2.default.createElement('source', { src: './../../img/Wakeport Kani\xF3w by Mavic Pro.mp4', type: 'video/mp4' })
                     ),
                     list,
@@ -1570,7 +1570,7 @@ var Main = function (_React$Component) {
                 { 'class': 'lower' },
                 _react2.default.createElement(
                     'video',
-                    { autoPlay: true, loop: true, id: 'video-background', muted: true, 'plays-inline': true },
+                    { autoPlay: true, loop: true, id: 'video-background', muted: true, 'playsInline': true },
                     _react2.default.createElement('source', { src: './../../img/Wakeport Kani\xF3w by Mavic Pro.mp4', type: 'video/mp4' })
                 ),
                 _react2.default.createElement(

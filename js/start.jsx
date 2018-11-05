@@ -9,12 +9,14 @@ import './../sass/start.scss'
 import {
     Redirect
 } from 'react-router-dom'
-export default class Start extends React.Component {
+import { addHours} from 'date-fns/fp'
+const addOneHour= addHours(1)
 
+export default class Start extends React.Component {
     state = {
         data: [],
         elements: [],
-        date: '',
+        date: new Date(),
         cD: '',
         hours: [],
         // cH: [],
@@ -24,7 +26,30 @@ export default class Start extends React.Component {
         redirect: false
     }
     peopleList = (e) => {
-        let currentTime = new Date()
+        let currentTime = addOneHour(new Date())
+        
+        console.log(currentTime)
+        const url2 = 'http://localhost:3000/recent/'
+        fetch(url2)
+            .then(resp => {
+                console.log(resp)
+                if (resp.ok) {
+                    return resp.json()
+                } else {
+                    throw new Error('Blad sieci!');
+                }
+            })
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    const element = data[i].id;
+                    fetch(url2 + element, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                    })
+
+                }
+            })
+
         fetch('http://localhost:3000/people')
             .then(resp => resp.json())
             .then(data => {
@@ -34,6 +59,8 @@ export default class Start extends React.Component {
                 })
                 if (this.state.data.length > 0) {
                     this.dataEdit()
+                    this.onStart()
+
                 }
             })
     }
@@ -42,7 +69,7 @@ export default class Start extends React.Component {
         let dates = []
         let hours = []
         let data = this.state.data
-
+        let idList = []
         function compare(a, b) {
             if (a.hour < b.hour)
                 return -1;
@@ -53,6 +80,7 @@ export default class Start extends React.Component {
 
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
+            let id = element.id
             let day = element.date.slice(0, 10)
             let hour = element.date.slice(11, 16)
             //if date is already in array
@@ -64,8 +92,8 @@ export default class Start extends React.Component {
                     const element2 = element.names[j].name;
                     names.push(element2)
                 }
-
-                let queue = { hour: hour, people: names }
+                idList.push(id)
+                let queue = { hour: hour, people: names, id: id }
                 hours[index].hours.splice(index, 0, queue)
 
             }
@@ -79,14 +107,17 @@ export default class Start extends React.Component {
                     names.push(element4)
 
                 }
-                queue.push({ hour: hour, people: names })
-                hours.push({id:element.id, day: day, hours: queue })
+                idList.push(id)
+                queue.push({ hour: hour, people: names, id: id })
+                hours.push({ id: idList, day: day, hours: queue })
             }
 
         }
         for (let i = 0; i < hours.length; i++) {
             const element = hours[i].hours;
+            const element2 = hours[i].id
             element.sort(compare)
+            element2.sort(compare)
         }
 
         this.setState({
@@ -113,9 +144,19 @@ export default class Start extends React.Component {
             this.checkingReservations()
         })
     }
+    correctDateOnStart = (e) => {
+        let newD = e
+        newD.setDate(newD.getDate())
+        let string = JSON.stringify(newD)
+        let day = string.slice(1, 11)
+        this.setState({
+            cD: day
+        }, () => {
+            this.checkingReservations()
+        })
+    }
 
     checkingReservations = () => {
-        console.log(this.state.elements)
         this.setState({
             hours: [],
             people: [],
@@ -126,16 +167,14 @@ export default class Start extends React.Component {
                 const element = this.state.elements[i];
 
                 if (element.day === this.state.cD) {
-                    console.log(element)
                     let hoursList = []
                     let peopleList = []
 
                     for (let j = 0; j < element.hours.length; j++) {
                         const element2 = element.hours[j].hour;
-                        hoursList.push({id:element.id, hour:element2})
+                        hoursList.push({ id: element.hours[j].id, hour: element2 })
                         peopleList.push(element.hours[j].people)
                     }
-
                     this.setState({
                         hours: hoursList,
                         people: peopleList
@@ -150,6 +189,11 @@ export default class Start extends React.Component {
     onClick = (e) => {
         this.correctDate(e)
     }
+    onStart = () => {
+
+
+        this.correctDateOnStart(this.state.date)
+    }
     hourOnClick = (e) => {
         let peopleForHour = []
         for (let i = 0; i < this.state.elements.length; i++) {
@@ -157,7 +201,6 @@ export default class Start extends React.Component {
             for (let k = 0; k < element.hours.length; k++) {
                 const element2 = element.hours[k];
                 if (e.target.value === element2.hour) {
-                    console.log(element2)
                     for (let j = 0; j < element2.people.length; j++) {
                         const element3 = element2.people[j];
                         peopleForHour.push(element3)
@@ -170,30 +213,34 @@ export default class Start extends React.Component {
         e.target.getAttribute('id')
         this.setState({
             peopleForHour: peopleForHour,
-            choosenHour: ({id: e.target.getAttribute('id'), hour: e.target.value})
+            choosenHour: ({ id: e.target.getAttribute('id'), hour: e.target.value })
         })
 
     }
     clickHandel = () => {
-        let url = 'http://localhost:3000/people'
-        let obj =this.state.choosenHour
-    //     fetch(url, {
-    //         method: 'POST',
-    //         body: JSON.stringify(obj),
-    //         headers: { "Content-Type": "application/json" }
-    //     })
-    //         .then(function (data) {
-    //             console.log('Request success: ', data);
-    //         })
-    //         .catch(function (error) {
-    //             console.log('Request failure: ', error);
-    //         })
-    //         .then(() => this.setState({ redirect: true }))
-    // }
+        let url = 'http://localhost:3000/recent/'
+        let obj = { id: this.state.choosenHour.id }
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(function (data) {
+                console.log('Request success: ', data);
+            })
+            .catch(function (error) {
+                console.log('Request failure: ', error);
+            })
+        .then(() => this.setState({ redirect: true }))
     }
+
     componentDidMount() {
         this.peopleList()
     }
+    // componentWillUnmount(){
+    //     this.peopleList.abort()
+    // }
     render() {
         let visible = ''
         if (this.state.hours.length == 0) {
@@ -203,13 +250,13 @@ export default class Start extends React.Component {
         }
 
 
-        let hours = this.state.hours.map(p => <div className='hours'><button className='hourButton' onClick={this.hourOnClick} value={p.hour} id={p.id}>{p.hour}</button></div>)
-        let people = this.state.peopleForHour.map(p => <div className='hours'><button className='hourButton' value={p}>{p}</button></div>)
+        let hours = this.state.hours.map(p => <div className='hours' key={p.id + 1}><button className='hourButton' onClick={this.hourOnClick} value={p.hour} id={p.id} key={p.id}>{p.hour}</button></div>)
+        let people = this.state.peopleForHour.map(p => <div className='hours' key={p.name + 1}><button className='hourButton' value={p} key={p.name}>{p}</button></div>)
 
         const { redirect } = this.state;
 
         if (redirect) {
-            return <Redirect to='/entry/time' />;
+            return <Redirect to='/app' />;
         }
 
 
@@ -217,7 +264,7 @@ export default class Start extends React.Component {
 
             <HashRouter>
                 <div>
-                    <video autoPlay loop id="video-background" muted plays-inline>
+                    <video autoPlay loop id="video-background" muted playsInline>
                         <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
                     </video>
                     <div className='next_to'>

@@ -130,7 +130,7 @@ pick = ()=>{
         
    
         <div className="lower">
-            <video autoPlay loop id="video-background" muted plays-inline>
+            <video autoPlay loop id="video-background" muted playsInline>
                 <source src="./../../img/Wakeport Kaniów by Mavic Pro.mp4" type="video/mp4" />
             </video>
             <div>
