@@ -23,7 +23,8 @@ export default class Timer extends React.Component {
         firstUse: true,
         index: 0,
         personId: 0,
-        rounds: 0
+        rounds: 0,
+        realTime: 45000 //mnożnik do ustalania czasu. wlasciwa wartosc = 60 000
     }
     date = () => {
 
@@ -62,7 +63,7 @@ export default class Timer extends React.Component {
                             let round = Number(data.names[i].time)
                             let timeSetup = []
 
-                            let timePerPerson = 60 / data.names.length * 1000
+                            let timePerPerson = 60 / data.names.length * this.state.realTime
                             if (data.names.length == 1) {
                                 time = 60
                             } else{
@@ -191,22 +192,19 @@ export default class Timer extends React.Component {
                     // let index = this.state.index
                     //pierwsze uruchomienie
                     if (this.state.firstUse == true && this.state.paused == undefined && this.state.running == undefined) {
-                        const currentTimeObj = { time: this.state.timeSetup[this.state.index].time[this.state.round] * 1000, id: this.state.timeSetup[this.state.index].id }
-                        // console.log(currentTimeObj)
-
+                        const currentTimeObj = { time: this.state.timeSetup[this.state.index].time[this.state.round] * this.state.realTime, id: this.state.timeSetup[this.state.index].id }
+                        this.speakStart()
                         this.setState({
                             currentTime: currentTimeObj
                         })
-                        let roundTime = this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound] * 1000 
+                        let roundTime = this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound] * this.state.realTime 
 
                         let personId = 0
                         let counter = 0
                         
                         this.id = setInterval(() => {
                             let index = this.state.index
-                            counter +=1
-                            // console.log(this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound], this.state.timeSetup[this.state.index].currentRound)
-                            console.log(this.state.timeSetup[this.state.index].currentRound)
+                            
 
                             if (roundTime > 0) {
                                 
@@ -255,7 +253,7 @@ export default class Timer extends React.Component {
                                     })
 
                                 } else {
-                                    roundTime = this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound] * 1000
+                                    roundTime = this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound] * this.state.realTime
                                     this.setState({
                                         currentTime: { time: roundTime, id: this.state.timeSetup[this.state.index].id }
                                     })
@@ -278,7 +276,7 @@ export default class Timer extends React.Component {
                                 }
 
                             
-                            if (this.state.currentTime.time === 280000) {
+                            if (this.state.currentTime.time === 120000) {
                                 this.speakPrepare(this.state.timeSetup[index + 1].name)
                             }
                             if (this.state.currentTime.time === 10000) {
@@ -297,27 +295,29 @@ export default class Timer extends React.Component {
 
                     if (this.state.paused == true) {
                         let roundTime = this.state.pauseTime
+                        console.log(roundTime)
                         let personId = 0
                         let index = this.state.index
 
 
 
+                        let counter = 0
+                        
                         this.id2 = setInterval(() => {
-                            console.log('drugi interwał')
                             let index = this.state.index
-                            for (let i = 0; i < this.state.timePerPerson.length; i++) {
-                                let element = this.state.timePerPerson[i].id;
-                                if (element == this.state.timeSetup[index].id) {
-                                    personId = element
-                                    this.setState({
-                                        personId: element
-                                    })
-                                }
-                            }
+                            counter +=1
+
                             if (roundTime > 0) {
-
-
-
+                                
+                                for (let i = 0; i < this.state.timePerPerson.length; i++) {
+                                    let element = this.state.timePerPerson[i].id;
+                                    if (element == this.state.timeSetup[index].id) {
+                                        personId = element
+                                        this.setState({
+                                            personId: element
+                                        })
+                                    }
+                                }
 
                                 let period = this.state.timePerPerson[personId - 1].time
                                 let change = period - 1000
@@ -327,29 +327,67 @@ export default class Timer extends React.Component {
                                     currentTime: { time: this.state.currentTime.time - 1000, id: this.state.timeSetup[index].id },
                                     timePerPerson: newList
                                 })
-                                roundTime = roundTime - 1000
-                            } else {
+                                roundTime -= 1000
 
+                            }
+                            else{
+                                let name = this.state.timeSetup[this.state.index].name
+                                let updatedtimeSetup =this.state.timeSetup.concat()
+                                for (let i = this.state.index+1; i < updatedtimeSetup.length; i++) {
+                                    
+                                    const element =  this.state.timeSetup[i].name;
+                                    if(name === element){
+                                        updatedtimeSetup[i].currentRound +=1
+                                    }
+                                }
+                                console.log(updatedtimeSetup)
                                 this.setState({
+                                    
                                     round: this.state.round + 1,
-                                    index: this.state.index + 1
+                                    index: this.state.index + 1,
+                                    timeSetup: updatedtimeSetup
                                 })
-                                if (index > this.state.rounds) {
+                                if (index == this.state.rounds) {
                                     clearInterval(this.id);
-                                } else {
-                                    roundTime = this.state.timeSetup[index].time * 1000
                                     this.setState({
-                                        currentTime: { time: this.state.timeSetup[this.state.index].time * 1000, id: this.state.timeSetup[this.state.index].id }
+                                        end: true
+                                    })
+
+                                } else {
+                                    roundTime = this.state.timeSetup[this.state.index].time[this.state.timeSetup[this.state.index].currentRound] * this.state.realTime
+                                    this.setState({
+                                        currentTime: { time: roundTime, id: this.state.timeSetup[this.state.index].id }
+                                    })
+                            }
+                        }
+
+
+                    
+                                if (index == this.state.rounds) {
+                                    clearInterval(this.id);
+                                    this.setState({
+                                        end: true
+                                    })
+
+                                } else {
+                                    // roundTime = this.state.timeSetup[index].time[this.state.round] * 1000
+                                    this.setState({
+                                        currentTime: { time: roundTime, id: this.state.timeSetup[this.state.index].id }
                                     })
                                 }
 
-
-                            }
-                            if (this.state.currentTime.time === 28000) {
+                            
+                            if (this.state.currentTime.time === 120000) {
                                 this.speakPrepare(this.state.timeSetup[index + 1].name)
                             }
-                            if (this.state.currentTime.time === 1000) {
+                            if (this.state.currentTime.time === 10000) {
                                 this.speakChange(this.state.timeSetup[index + 1].name)
+                            }
+                            if (this.state.paused) {
+                                this.setState({
+                                    pauseTime: this.state.currentTime.time
+                                })
+                                clearInterval(this.id2)
                             }
                         }, 1000)
                     }

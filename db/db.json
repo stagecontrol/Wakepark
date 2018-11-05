@@ -1,204 +1,50 @@
 {
   "people": [
     {
-      "id": 0.4041650940114099,
-      "date": "2018-09-06T22:00:00.000Z",
-      "names": [
-        {
-          "name": "kuba",
-          "number": 1
-        },
-        {
-          "name": "ania",
-          "number": 2
-        }
-      ]
-    },
-    {
-      "id": 0.32015683367085723,
-      "date": "2018-09-12T22:00:00.000Z",
-      "names": [
-        {
-          "name": "kuba",
-          "number": 1
-        },
-        {
-          "name": "ania",
-          "number": 2
-        }
-      ]
-    },
-    {
-      "id": 0.3990580746220712,
-      "date": "2018-09-05T22:00:00.000Z",
-      "names": [
-        {
-          "name": 1,
-          "number": 1
-        },
-        {
-          "name": "wania",
-          "number": 2
-        }
-      ]
-    },
-    {
-      "id": 0.9137786064664842,
-      "date": "2018-09-13T04:00:00.000Z",
-      "names": [
-        {
-          "name": "Jeży",
-          "number": 1
-        },
-        {
-          "name": "Ania",
-          "number": 2
-        }
-      ]
-    },
-    {
-      "id": 0.22197741230319123,
-      "date": "2018-09-10T17:00:00.000Z",
-      "names": [
-        {
-          "name": "Ania",
-          "number": 1
-        },
-        {
-          "name": "Hania",
-          "number": 2
-        }
-      ]
-    },
-    {
-      "id": 0.29953630615741667,
-      "date": "2018-09-06T13:00:00.000Z",
-      "names": [
-        {
-          "name": "13",
-          "number": 1
-        },
-        {
-          "name": "Romek",
-          "number": 2
-        },
-        {
-          "name": "Atomek",
-          "number": 3
-        }
-      ]
-    },
-    {
-      "id": 0.29953630615741667,
-      "date": "2018-09-06T12:00:00.000Z",
-      "names": [
-        {
-          "name": "12",
-          "number": 1
-        },
-        {
-          "name": "Romek",
-          "number": 2
-        },
-        {
-          "name": "Atomek",
-          "number": 3
-        }
-      ]
-    },
-    {
-      "id": 0.29953630615741667,
-      "date": "2018-09-06T14:00:00.000Z",
-      "names": [
-        {
-          "name": "14",
-          "number": 1
-        },
-        {
-          "name": "Romek",
-          "number": 2
-        },
-        {
-          "name": "Atomek",
-          "number": 3
-        }
-      ]
-    },
-    {
-      "id": 0.29953630615741667,
-      "date": "2018-09-06T17:00:00.000Z",
-      "names": [
-        {
-          "name": "17",
-          "number": 1
-        },
-        {
-          "name": "Romek",
-          "number": 2
-        },
-        {
-          "name": "Atomek",
-          "number": 3
-        }
-      ]
-    },
-    {
-      "id": 0.6001300031387782,
-      "date": "2018-10-30T15:00:12.582Z",
+      "id": 0.9493933514989863,
+      "date": "2018-11-03T19:39:43.305Z",
       "names": [
         {
           "name": "Kuba",
-          "number": 1
+          "number": 1,
+          "time": "3"
         },
         {
-          "name": "Pupa",
-          "number": 2
+          "name": "Luba",
+          "number": 2,
+          "time": "4"
         },
         {
-          "name": "Ruda",
-          "number": 3
+          "name": "Dupa",
+          "number": 3,
+          "time": "2"
         }
       ]
     },
     {
-      "id": 0.35542364447242425,
-      "date": "2018-10-30T16:00:21.875Z",
+      "id": 0.7114264687418819,
+      "date": "2018-11-03T19:00:05.617Z",
       "names": [
         {
-          "name": "Michał",
-          "number": 1
+          "name": "Siupa",
+          "number": 1,
+          "time": "2"
         },
         {
-          "name": "Kichał",
-          "number": 2
+          "name": "Kupa",
+          "number": 2,
+          "time": "4"
         },
         {
-          "name": "Prychał",
-          "number": 3
+          "name": "Wóda",
+          "number": 3,
+          "time": "3"
         }
       ]
     },
     {
-      "id": 0.2296348985578176,
-      "date": "2018-10-30T17:00:12.958Z",
-      "names": [
-        {
-          "name": "Kamil",
-          "number": 1
-        },
-        {
-          "name": "Janek",
-          "number": 2
-        },
-        {
-          "name": "Ania",
-          "number": 3
-        }
-      ]
-    },
-    {
-      "id": 0.34312274705963486,
-      "date": "2018-11-01T21:00:00.000Z",
+      "id": 0.5625461994734932,
+      "date": "2018-11-05T17:00:36.000Z",
       "names": [
         {
           "name": "Kuba",
@@ -206,261 +52,40 @@
           "time": "4"
         },
         {
-          "name": "Pumba",
+          "name": "Tomek",
           "number": 2,
           "time": "3"
+        },
+        {
+          "name": "Ola",
+          "number": 3,
+          "time": "4"
         }
       ]
     },
     {
-      "id": 0.9943684473840385,
-      "date": "2018-11-02T10:00:20.220Z",
+      "id": 0.5465378455720766,
+      "date": "2018-11-05T22:00:03.114Z",
       "names": [
         {
-          "name": "Lipa",
+          "name": "Kuba",
           "number": 1,
           "time": "4"
         },
         {
-          "name": 2,
+          "name": "Dupa",
           "number": 2,
           "time": "3"
         },
         {
-          "name": "Kipa",
+          "name": "Luba",
           "number": 3,
           "time": "2"
         }
       ]
-    },
-    {
-      "id": 0.7057016391816959,
-      "date": "2018-11-01T23:00:09.768Z",
-      "names": [
-        {
-          "name": "Janek",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "Wanek",
-          "number": 2,
-          "time": "4"
-        },
-        {
-          "name": "Stanek",
-          "number": 3,
-          "time": "3"
-        }
-      ]
-    },
-    {
-      "id": 0.5211869866373091,
-      "date": "2018-11-02T10:55:26.994Z",
-      "names": []
-    },
-    {
-      "id": 0.7725174602122803,
-      "date": "2018-11-01T23:00:26.994Z",
-      "names": [
-        {
-          "name": "Ania",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "Hania",
-          "number": 2,
-          "time": "4"
-        },
-        {
-          "name": "Wania",
-          "number": 3,
-          "time": "3"
-        }
-      ]
-    },
-    {
-      "id": 0.6388511239603853,
-      "date": "2018-11-02T11:01:32.420Z",
-      "names": [
-        {
-          "name": "aaa",
-          "number": 1,
-          "time": "3"
-        },
-        {
-          "name": "sss",
-          "number": 2,
-          "time": "4"
-        },
-        {
-          "name": "ddd",
-          "number": 3,
-          "time": "5"
-        }
-      ]
-    },
-    {
-      "id": 0.15462778407060573,
-      "date": "2018-11-02T11:03:23.718Z",
-      "names": [
-        {
-          "name": "a",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "d",
-          "number": 2,
-          "time": "5"
-        }
-      ]
-    },
-    {
-      "id": 0.7914502074838713,
-      "date": "2018-11-02T11:04:26.257Z",
-      "names": [
-        {
-          "name": "dsad",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "fdsaf",
-          "number": 2,
-          "time": "5"
-        }
-      ]
-    },
-    {
-      "id": 0.8073841494143207,
-      "date": "2018-11-02T11:06:17.310Z",
-      "names": [
-        {
-          "name": "sds",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "s",
-          "number": 2,
-          "time": "3"
-        }
-      ]
-    },
-    {
-      "id": 0.2805199010271212,
-      "date": "2018-11-02T11:08:57.502Z",
-      "names": [
-        {
-          "name": "dsfa",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "dfsa",
-          "number": 2,
-          "time": "3"
-        }
-      ]
-    },
-    {
-      "id": 0.9818418944254294,
-      "date": "2018-11-02T11:09:56.950Z",
-      "names": [
-        {
-          "name": "fsda",
-          "number": 1,
-          "time": "3"
-        },
-        {
-          "name": "adsf",
-          "number": 2,
-          "time": "4"
-        }
-      ]
-    },
-    {
-      "id": 0.4615986380833521,
-      "date": "2018-11-02T11:00:32.410Z",
-      "names": [
-        {
-          "name": "Jakub",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "Waniuk",
-          "number": 2,
-          "time": "3"
-        }
-      ]
-    },
-    {
-      "id": 0.3242774076763433,
-      "date": "2018-11-02T11:00:32.079Z",
-      "names": [
-        {
-          "name": "Jakub",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "Waniuk",
-          "number": 2,
-          "time": "4"
-        }
-      ]
-    },
-    {
-      "id": 0.2890935114142771,
-      "date": "2018-11-03T16:00:10.630Z",
-      "names": [
-        {
-          "name": "Janek",
-          "number": 1,
-          "time": "4"
-        },
-        {
-          "name": "Stanek",
-          "number": 2,
-          "time": "2"
-        },
-        {
-          "name": "Wanek",
-          "number": 3,
-          "time": "3"
-        },
-        {
-          "name": "Bronek",
-          "number": 4,
-          "time": "3"
-        }
-      ]
     }
   ],
-  "time": [
-    {
-      "name": "Kamil",
-      "time": "4",
-      "id": 1
-    },
-    {
-      "name": "Janek",
-      "time": "3",
-      "id": 2
-    },
-    {
-      "name": "Ania",
-      "time": "2",
-      "id": 3
-    }
-  ],
+  "time": [],
   "temporary": [],
-  "recent": [
-    {
-      "id": 0.2890935114142771
-    }
-  ]
+  "recent": []
 }

@@ -8,9 +8,13 @@ import Time from './timePicker.jsx';
 import {
     Redirect
 } from 'react-router-dom'
+import moment from 'moment'
+import { addHours} from 'date-fns/fp'
+const addOneHour= addHours(1)
 
 
 export default class People extends React.Component {
+
     state = {
         list: [],
         number: [],
@@ -57,14 +61,15 @@ export default class People extends React.Component {
         const name = e.target.value
         const index = e.target.name - 1
         newList.splice(index, 1, name)
-        console.log(newList)
         this.setState({
             names: newList
         })
     }
 
     date = (date) => {
+        // date = addOneHour(date)
         for (let i = 0; i < this.state.list.length; i++) {
+
             const element = this.state.list[i].date;
             let dateJSON = JSON.stringify(date)
             let correctData = dateJSON.slice(1, 17)
@@ -81,7 +86,7 @@ export default class People extends React.Component {
         let names = []
         let element = {}
         let random = Math.random()
-        const date = this.state.selectedDate
+        const date = addOneHour(this.state.selectedDate)
         element = {id: random, date:date, names: names}
         for (let i = 0; i < this.state.names.length; i++) {
             const name = this.state.names[i];
@@ -97,11 +102,9 @@ export default class People extends React.Component {
         const url = 'http://localhost:3000/temporary/'
         const url2 = 'http://localhost:3000/recent/'
         let obj = names
-        console.log(obj)
         let id = {id:obj.id}
         for (let i = 0; i < this.state.list.length; i++) {
         const element = this.state.list[i].id;
-        console.log(element, id)
         fetch(url+element, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
@@ -163,9 +166,10 @@ componentDidMount(){
     this.loadlist()
 }
     render() {
+        console.log(this.state.selectedDate)
         const People = this.state.number.map(p =>
             <div key={p}>
-                <Input placeholder="Podaj imię" key={p} onChange={this.name} className="input"></Input>
+                <Input placeholder="Podaj imię" key={p} onChange={this.name} className="input" autoFocus></Input>
             </div>)
 
 

@@ -43,8 +43,9 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
-    "date-fns": "^2.0.0-alpha.16",
+    "date-fns": "^2.0.0-alpha.25",
     "material-ui-pickers": "^1.0.0-rc.14",
+    "moment": "^2.22.2",
     "react-calendar": "^2.17.4",
     "react-input-range": "^1.3.0",
     "utils": "^0.3.1",

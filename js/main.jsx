@@ -1,51 +1,40 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {
-    HashRouter,
-    Redirect,
-    Route,
-    Link,
-    Switch,
-    NavLink,
-} from 'react-router-dom';
-import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
-import Select from '@material-ui/core/Select'
-import Portal from '@material-ui/core/Portal';
 
-//components 
-import EntryList from './entry_list/entryList.jsx'
-import Timer from './Timer.jsx'
-import Speak from './speak.jsx'
-import AppBar from './appBar.jsx';
+    Redirect,
+
+} from 'react-router-dom';
+
+import './../sass/main.scss'
+
 
 
 
 export default class Main extends React.Component {
     state = {
-        numberOfPeopleRecords: 0,
-        numberOfTimeRecords: 0,
+        numberOfPeopleRecords: [],
+        numberOfTimeRecords: [],
         redirectPeople: false,
         redirectList: false,
     }
     urlPeople = 'http://localhost:3000/people/'
-    urlTime = 'http://localhost:3000/time/'
+    urlTime = 'http://localhost:3000/recent/'
 
 
 
     clearDB = () => {
+        console.log( this.state.numberOfTimeRecords)
+        console.log( this.state.numberOfPeopleRecords)
 
-
-        for (let i = 1; i < this.state.numberOfPeopleRecords + 1; i++) {
-            fetch(this.urlPeople + i, {
+        for (let i = 0; i < this.state.numberOfPeopleRecords.length+1; i++) {
+            fetch(this.urlPeople + this.state.numberOfPeopleRecords[i], {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             })
                 .then(response => response.json());
         }
-        for (let i = 1; i < this.state.numberOfTimeRecords + 1; i++) {
-
-            fetch(this.urlTime + i, {
+        for (let i = 0; i < this.state.numberOfTimeRecords.length + 1; i++) {
+            fetch(this.urlTime + this.state.numberOfTimeRecords, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             })
@@ -56,18 +45,26 @@ export default class Main extends React.Component {
         fetch(this.urlTime, )
             .then(resp => resp.json())
             .then(data => {
-                const number = data.length
+                let idList = []
+                for (let i = 0; i < data.length; i++) {
+                    const element = data[i].id;
+                    idList.push(element)
+                }
                 this.setState({
-                    numberOfTimeRecords: number
+                    numberOfTimeRecords: idList
                 })
                 console.log(this.state.numberOfTimeRecords, 'time')
             })
         fetch(this.urlPeople, )
             .then(resp => resp.json())
             .then(data => {
-                const number = data.length
+                let idList = []
+                for (let i = 0; i < data.length; i++) {
+                    const element = data[i].id;
+                    idList.push(element)
+                }
                 this.setState({
-                    numberOfPeopleRecords: number
+                    numberOfPeopleRecords: idList
                 })
                 console.log(number, 'people')
             })
